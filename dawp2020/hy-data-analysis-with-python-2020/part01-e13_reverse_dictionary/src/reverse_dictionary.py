@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 def reverse_dictionary(d):
-    return {}
+    rd = {}
+    for key, vals in d.items():
+        for v in vals:
+            if v in rd.keys():
+                rd[v] += [key]
+            else:
+                rd[v] = [key]
+            
+    return rd
 
 def main():
     pass
