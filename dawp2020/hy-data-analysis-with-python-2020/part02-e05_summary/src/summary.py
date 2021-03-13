@@ -18,10 +18,10 @@ def summary(filename='src/example.txt'):
         _avg    = _sum / len(X)
         _stddev = (sum([(x - _avg) ** 2 for x in X]) / (len(X) - 1)) ** 0.5
         del X
-        return (_sum, _avg, _stddev)    # no lines case
+        return (_sum, _avg, _stddev)
     except ZeroDivisionError as ez:
         print(ez.args, file=sys.stderr)
-    return None
+    return None     # FileNotFound raised
 
 def main():
     if len(sys.argv) > 1:
