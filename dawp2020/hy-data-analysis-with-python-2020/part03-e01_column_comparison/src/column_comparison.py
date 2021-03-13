@@ -3,7 +3,9 @@
 import numpy as np
 
 def column_comparison(a):
-    return np.array([])
+    b = a.T
+    c = b[1] > b[-2]
+    return a[c.T]
     
 def main():
     pass
