@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
+# Note: arr[::-1] - Reverses the array
 
 import numpy as np
 
 def get_rows(a):
-    return []
+    return [np.array(r) for r in a]
 
 def get_columns(a):
-    return []
+    return [np.array(c) for c in a.T]
 
 def main():
     np.random.seed(0)
