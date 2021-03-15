@@ -8,10 +8,13 @@ def load():
     return pd.read_csv("src/iris.csv").drop('species', axis=1).values
 
 def lengths():
-    return 0
+    sepal_length, petal_length = load().T[[0,2]]
+    # Hint: Compute this using the scipy.stats.pearsonr function. 
+    #       It returns a tuple whose first element is the correlation.
+    return scipy.stats.pearsonr(sepal_length, petal_length)[0]
 
 def correlations():
-    return np.array([])
+    return np.corrcoef(load().T[[0,1,2,3]])
 
 def main():
     print(lengths())
