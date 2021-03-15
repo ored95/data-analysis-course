@@ -3,14 +3,21 @@
 import numpy as np
 
 def almost_meeting_lines(a1, b1, a2, b2):
-    return []
+    ans = np.linalg.lstsq(
+        a=[
+            [a1, -1],
+            [a2, -1]
+        ],
+        b=[-b1, -b2],
+        rcond=-1
+    )
+    return tuple(ans[0]), bool(ans[2] == 2)
 
 def main():
     a1=1
     b1=2
     a2=-1
     b2=0
-
     (x, y), exact = almost_meeting_lines(a1, b1, a2, b2)
     if exact:
         print(f"Lines meet at x={x} and y={y}")
