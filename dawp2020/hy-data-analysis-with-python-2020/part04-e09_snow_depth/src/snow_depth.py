@@ -3,10 +3,11 @@
 import pandas as pd
 
 def snow_depth():
-    return 0.0
+    df = pd.read_csv('src/kumpula-weather-2017.csv')
+    return df['Snow depth (cm)'].max()
 
 def main():
-    return
+    print('Max snow depth: {:.1f}'.format(snow_depth()))
 
 if __name__ == "__main__":
     main()
