@@ -29,9 +29,9 @@ class CyclingWeatherContinues(unittest.TestCase):
         self.assertAlmostEqual(self.coef[0], -58.2, places=1,
                                msg="Incorrect regression coefficient for precipitation!")
         self.assertAlmostEqual(self.coef[1], -15.8, places=1,
-                               msg="Incorrect regression coefficient for precipitation!")
+                               msg="Incorrect regression coefficient for snowdepth!")
         self.assertAlmostEqual(self.coef[2], 145.6, places=1,
-                               msg="Incorrect regression coefficient for precipitation!")
+                               msg="Incorrect regression coefficient for temperature!")
 
         
     def test_output(self):
