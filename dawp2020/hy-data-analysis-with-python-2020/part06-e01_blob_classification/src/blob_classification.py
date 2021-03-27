@@ -7,7 +7,11 @@ from sklearn import datasets
 from sklearn.model_selection import train_test_split
 
 def blob_classification(X, y):
-    return 0.0
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0, test_size=0.25)
+    model = GaussianNB()
+    model.fit(X_train, y_train)
+    y_predicted = model.predict(X_test)
+    return metrics.accuracy_score(y_predicted, y_test)
 
 def main():
     X,y = datasets.make_blobs(100, 2, centers=2, random_state=2, cluster_std=2.5)
