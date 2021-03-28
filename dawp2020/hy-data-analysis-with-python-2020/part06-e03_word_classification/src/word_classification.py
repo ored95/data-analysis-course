@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from collections import Counter
+from inspect import getfile
 import urllib.request
 from lxml import etree
 
@@ -33,22 +34,43 @@ def load_finnish():
 
 def load_english():
     with open("src/words", encoding="utf-8") as data:
-        lines=map(lambda s: s.rstrip(), data.readlines())
+        lines=list(map(lambda s: s.rstrip(), data.readlines()))
     return lines
 
 def get_features(a):
-    return np.array([[]])
+    na = np.empty(shape=(len(a), len(alphabet)), dtype=object)
+    for i in range(na.shape[0]):
+        na[i] = (np.array([a[i].count(x) for x in alphabet]))
+    return na
 
 def contains_valid_chars(s):
-    return True
+    return np.all([x in alphabet for x in s])   # np.isin(s, alphabet) not work?!
 
 def get_features_and_labels():
-    return np.array([[]]), np.array([])
-
+    finW, engW = load_finnish(), load_english()
+    # Convert the Finnish words to lowercase, and then filter out 
+    # those words that contain characters that don’t belong to the alphabet.
+    finW = list(map(str.lower, finW))
+    finW = list(filter(contains_valid_chars, finW))
+    # For the English words first filter out those words that begin with an uppercase 
+    # letter to get rid of proper nouns. Then proceed as with the Finnish words.
+    engW = list(filter(lambda w: w[0] not in alphabet[:-3].upper(), engW))
+    engW = list(map(str.lower, engW))
+    engW = list(filter(contains_valid_chars, engW))
+    print(len(engW))
+    # Generate features and labels
+    labels   = np.concatenate([np.zeros(shape=len(finW), dtype=int), np.ones(shape=len(engW), dtype=int)], axis=0)
+    features = get_features(np.concatenate([finW, engW], axis=0))
+    return features, labels
 
 def word_classification():
-    return []
-
+    features, labels = get_features_and_labels()
+    model = MultinomialNB()
+    # See more: https://scikit-learn.org/stable/modules/cross_validation.html
+    # https://scikit-learn.org/stable/tutorial/statistical_inference/model_selection.html
+    kf = model_selection.KFold(n_splits=5, shuffle=True, random_state=0)
+    scores = cross_val_score(model, features, labels, cv=kf, n_jobs=-1)
+    return scores
 
 def main():
     print("Accuracy scores are:", word_classification())
