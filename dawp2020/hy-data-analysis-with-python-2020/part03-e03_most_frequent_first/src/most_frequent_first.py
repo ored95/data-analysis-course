@@ -4,13 +4,13 @@ import numpy as np
 
 def most_frequent_first(a, c):
     # Get c-th column
-    col = a.T[[c]]
+    col = a[:, c]
     # Get unique values from col and its frequencies
     values, counts = np.unique(col, return_counts=True)
     # Sort values by index in descending order
     idx = np.argsort(-counts)   # minus means negative all elements
     # Return list indexes of array by sorting descending frequency order
-    order = np.concatenate([np.where(col == x)[1] for x in values[idx]])
+    order = np.concatenate([np.where(col == x)[0] for x in values[idx]])
     # Select 2D-array by order
     return a[order]
 
