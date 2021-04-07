@@ -3,15 +3,16 @@
 import pandas as pd
 
 def growing_municipalities(df):
-    increasing_population_change = df[df.columns[1]] > 0
-    growing_count = df[increasing_population_change].shape[0]
-    proportion = growing_count / df.shape[0]
-    return proportion
-
+    c = "Population change from the previous year, %"
+    n = len(df)
+    k = sum(df[c] > 0.0)
+    return k / n
+ 
 def main():
-    df = pd.read_csv('src/municipal.tsv', index_col=0, sep='\t')
+    df = pd.read_csv("src/municipal.tsv", index_col=0, sep="\t")
     df = df["Akaa":"Kannus"]
-    print('Proportion of growing municipalities: {:.1f}%'.format(growing_municipalities(df)))
-
+    proportion = growing_municipalities(df)
+    print(f"Proportion of growing municipalities: {proportion:.1%}")
+ 
 if __name__ == "__main__":
     main()
